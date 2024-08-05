@@ -1,14 +1,15 @@
 // src/app/components/CategoryGrid.js
 
 import React, { useState, useEffect } from 'react';
-import { Box, Button, Stack, Typography, MenuItem, Select, InputLabel, FormControl, TextField, IconButton, Drawer, Snackbar, Alert, CssBaseline } from '@mui/material';
+import { Box, Button, Stack, Typography, MenuItem, Select, InputLabel, FormControl, TextField, IconButton, Drawer, Snackbar, Alert, CssBaseline, Tab, Tabs } from '@mui/material';
 import AddIcon from '@mui/icons-material/Add';
 import RemoveIcon from '@mui/icons-material/Remove';
 import SearchIcon from '@mui/icons-material/Search';
 import { collection, doc, setDoc, getDoc } from "firebase/firestore";
 import { itemsData } from '../data/items';
-import { firestore } from '../firebase'; 
+import { firestore, auth } from '../firebase'; 
 import InventoryDetails from './InventoryDetails'; 
+import MyInventory from './MyInventory';
 
 const ITEMS_PER_PAGE = 5;
 
@@ -20,11 +21,12 @@ const CategoryGrid = () => {
   const [cart, setCart] = useState({});
   const [cartOpen, setCartOpen] = useState(false);
   const [quantities, setQuantities] = useState({});
-  const [explore, setExplore] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
   const [snackbarOpen, setSnackbarOpen] = useState(false);
   const [snackbarMessage, setSnackbarMessage] = useState('');
   const [inventoryOpen, setInventoryOpen] = useState(false);
+  const [myInventoryOpen, setMyInventoryOpen] = useState(false);
+  const [tabValue, setTabValue] = useState(0);
 
   useEffect(() => {
     if (selectedCategory) {
@@ -40,12 +42,18 @@ const CategoryGrid = () => {
   const handleAddToCart = async (item, quantity) => {
     if (quantity > 0) {
       try {
+        const user = auth.currentUser;
+        if (!user) {
+          throw new Error('User not authenticated');
+        }
         const itemRef = doc(collection(firestore, 'categories', selectedCategory, 'items'), item);
+        const userItemRef = doc(collection(firestore, 'users', user.uid, 'items'), item);
         const itemSnap = await getDoc(itemRef);
         const currentQuantity = itemSnap.exists() ? itemSnap.data().quantity : 0;
         const newQuantity = currentQuantity + quantity;
 
         await setDoc(itemRef, { name: item, quantity: newQuantity }, { merge: true });
+        await setDoc(userItemRef, { name: item, quantity: newQuantity, category: selectedCategory }, { merge: true });
 
         console.log('Item added to Firestore:', item, newQuantity);
 
@@ -87,10 +95,6 @@ const CategoryGrid = () => {
 
   const toggleCart = () => setCartOpen(!cartOpen);
 
-  const handleExploreClick = () => {
-    setExplore(true);
-  };
-
   const handleNextPage = () => {
     if (currentPage < Math.ceil(items.length / ITEMS_PER_PAGE)) {
       setCurrentPage(currentPage + 1);
@@ -111,9 +115,17 @@ const CategoryGrid = () => {
     setSnackbarOpen(false);
   };
 
+  const handleTabChange = (event, newValue) => {
+    setTabValue(newValue);
+  };
+
   return (
     <Box>
       <CssBaseline />
+      <Tabs value={tabValue} onChange={handleTabChange} aria-label="inventory tabs">
+        <Tab label="Category Inventory" />
+        <Tab label="My Inventory" />
+      </Tabs>
       <Button
         variant="contained"
         onClick={() => setInventoryOpen(true)}
@@ -128,13 +140,7 @@ const CategoryGrid = () => {
       </Button>
       <Box display="flex" p={2}>
         <Box flexGrow={1}>
-          {!explore && (
-            <Button variant="contained" onClick={handleExploreClick}>
-              View Menu Items
-            </Button>
-          )}
-
-          {explore && (
+          {tabValue === 0 && (
             <Box mt={2}>
               <FormControl fullWidth>
                 <InputLabel></InputLabel>
@@ -195,6 +201,10 @@ const CategoryGrid = () => {
                 </Box>
               )}
             </Box>
+          )}
+
+          {tabValue === 1 && (
+            <MyInventory />
           )}
         </Box>
 
