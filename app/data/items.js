@@ -1,0 +1,53 @@
+// src/app/data/items.js
+
+export const itemsData = {
+    groceries: [
+      { id: 'apple', name: 'Apple', price: 1.2 },
+      { id: 'banana', name: 'Banana', price: 0.5 },
+      { id: 'carrot', name: 'Carrot', price: 0.7 },
+      { id: 'dates', name: 'Dates', price: 3.0 },
+      { id: 'eggplant', name: 'Eggplant', price: 1.5 },
+      { id: 'fig', name: 'Fig', price: 2.0 },
+      { id: 'grape', name: 'Grape', price: 2.5 },
+      { id: 'honeydew', name: 'Honeydew', price: 3.5 },
+      { id: 'kiwi', name: 'Kiwi', price: 2.2 },
+      { id: 'lemon', name: 'Lemon', price: 1.0 },
+    ],
+    electronics: [
+      { id: 'phone', name: 'Smartphone', price: 299.99 },
+      { id: 'laptop', name: 'Laptop', price: 799.99 },
+      { id: 'headphones', name: 'Headphones', price: 89.99 },
+      { id: 'keyboard', name: 'Keyboard', price: 49.99 },
+      { id: 'mouse', name: 'Mouse', price: 29.99 },
+      { id: 'monitor', name: 'Monitor', price: 199.99 },
+      { id: 'printer', name: 'Printer', price: 129.99 },
+      { id: 'camera', name: 'Camera', price: 499.99 },
+      { id: 'tablet', name: 'Tablet', price: 229.99 },
+      { id: 'speaker', name: 'Bluetooth Speaker', price: 59.99 },
+    ],
+    babyProducts: [
+      { id: 'diapers', name: 'Diapers', price: 25.0 },
+      { id: 'wipes', name: 'Wipes', price: 10.0 },
+      { id: 'bottle', name: 'Baby Bottle', price: 8.0 },
+      { id: 'pacifier', name: 'Pacifier', price: 5.0 },
+      { id: 'onesie', name: 'Baby Onesie', price: 12.0 },
+      { id: 'crib', name: 'Baby Crib', price: 199.0 },
+      { id: 'blanket', name: 'Baby Blanket', price: 20.0 },
+      { id: 'stroller', name: 'Baby Stroller', price: 150.0 },
+      { id: 'highchair', name: 'High Chair', price: 130.0 },
+      { id: 'playpen', name: 'Playpen', price: 80.0 },
+    ],
+    giftCards: [
+      { id: 'amazon', name: 'Amazon Gift Card', price: 50.0 },
+      { id: 'apple', name: 'Apple Gift Card', price: 25.0 },
+      { id: 'google', name: 'Google Play Gift Card', price: 30.0 },
+      { id: 'starbucks', name: 'Starbucks Gift Card', price: 15.0 },
+      { id: 'netflix', name: 'Netflix Gift Card', price: 20.0 },
+      { id: 'walmart', name: 'Walmart Gift Card', price: 40.0 },
+      { id: 'bestbuy', name: 'Best Buy Gift Card', price: 60.0 },
+      { id: 'ebay', name: 'eBay Gift Card', price: 35.0 },
+      { id: 'target', name: 'Target Gift Card', price: 25.0 },
+      { id: 'sephora', name: 'Sephora Gift Card', price: 50.0 },
+    ],
+  };
+  
